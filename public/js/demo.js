@@ -15,6 +15,8 @@ $(function() {
     }
     $(ev.target).remove();
   });
+
+  clocktick();
 });
 
 function loadList() {
@@ -54,4 +56,23 @@ function addSubject(){
     }
   });
   return false;
+}
+
+function clocktick() {
+  var now = new Date();
+  var yyyy = now.getFullYear();
+  var mm = now.getMonth() + 1;
+  var dd = now.getDate();
+  var hh = now.getHours();
+  var nn = now.getMinutes();
+  var ss = now.getSeconds();
+  if (mm < 10) { mm = "0" + mm; }
+  if (dd < 10) { dd = "0" + dd; }
+  if (hh < 10) { hh = "0" + hh; }
+  if (nn < 10) { nn = "0" + nn; }
+  if (ss < 10) { ss = "0" + ss; }
+
+  $("#clock").html(yyyy + "/" + mm + "/" + dd + "<br>" + hh + ":" + nn + ":" + ss);
+
+  setTimeout("clocktick()", 1000);
 }
