@@ -30,7 +30,15 @@ function loadList() {
 function next(message) {
   line = $('<span>');
   line.addClass('message');
-  line.append(message);
+  if ((message) && (message.match(/(jpe?g|gif|png)$/i))) {
+    img = $('<img>');
+    img.attr('src', message);
+    line.css('webkit-animation', 'blurFadeInOutImage 5s ease-in');
+    line.append(img);
+  }
+  else {
+    line.append(message);
+  }
   line.appendTo("#main");
 }
 
