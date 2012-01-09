@@ -2,7 +2,11 @@ list = [];
 pointer = 0;
 
 $(function() {
+  $("#menuList").bind('click', showList);
+  $("#menuDemo").bind('click', showDemo);
+
   loadList();
+
   $("#go").bind('click', addSubject);
   $("form").bind('submit', addSubject);
 
@@ -19,11 +23,30 @@ $(function() {
   clocktick();
 });
 
+function showDemo() { toggleMain("demo"); }
+function showList() { toggleMain("list"); }
+
+function toggleMain(tgt) {
+  $(".main").each(function() { $(this).hide(); } );
+  $("#" + tgt).show();
+  console.log($("#" + tgt));
+}
+
 function loadList() {
   $.ajax({
     url: "/list",
     type: "GET",
-    success: function(ret){ list = eval(ret); }
+    success: function(ret){
+      list = eval(ret);
+      updateList();
+    }
+  });
+}
+
+function updateList() {
+  $.each(list.reverse(), function(i, val) {
+    $("#listItem" + (i + 1)).text(val);
+    if (i > 9) { return; }
   });
 }
 
@@ -39,7 +62,7 @@ function next(message) {
   else {
     line.append(message);
   }
-  line.appendTo("#main");
+  line.appendTo("#demo");
 }
 
 function add(message) {
@@ -61,6 +84,7 @@ function addSubject(){
       $("#subject").val("");
       $("#go").show();
       $("#wait").hide();
+      updateList();
     }
   });
   return false;

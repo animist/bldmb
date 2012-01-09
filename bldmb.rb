@@ -48,5 +48,5 @@ end
 get '/list' do
   ncn = Nokogiri::XML.parse(@note.content)
   tgt = ncn.xpath('//en-note').last.inner_text
-  tgt.split(/\n/).to_json
+  tgt.split(/\n/).reject { |x| x == "" }.to_json
 end
